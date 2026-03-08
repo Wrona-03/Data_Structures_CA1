@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.Random;
 
 /**
  *
@@ -26,18 +27,33 @@ public class MainGUI extends javax.swing.JFrame {
 
     public MainGUI() {
         initComponents();
-        
+
+        plantCB.removeAllItems();
+        areaCB.removeAllItems();
+
         areaCB.addItem("George's Dock");
         areaCB.addItem("Mayor Square");
         areaCB.addItem("Spencer Dock");
         areaCB.addItem("The Point Village");
         areaCB.addItem("Grand Canal Dock");
-        
+
         plantCB.addItem(new Primrose());
         plantCB.addItem(new Cowslip());
         plantCB.addItem(new RedClover());
         plantCB.addItem(new Bluebell());
 
+        String[] starterSuggestions = {"George's Dock -> Bluebell : A woodland flower known for its blue bell-shaped petals.", "Mayor Square -> Primrose: A native Irish wildflower that blooms in early spring.", "Mayor Square -> Primrose: A native Irish wildflower that blooms in early spring.", "Spencer Dock -> Red Clover: A raspberry pink herb which was once Denmark's national flower.", "Grand Canal Dock -> Cowslip : A yellow flower that was used as a medicinal herb.", "The Point Village -> Bluebell : A woodland flower known for its blue bell-shaped petals."};
+
+        Random rand = new Random();
+
+        for (int i = 0; i < 3; i++) {
+            int index = rand.nextInt(starterSuggestions.length);
+            approvedSuggestions.push(starterSuggestions[index]);
+        }
+
+        for (String s : approvedSuggestions) {
+            approvedTA.append(s + "\n");
+        }
     }
 
     private void updatePendingTA() {
@@ -48,15 +64,6 @@ public class MainGUI extends javax.swing.JFrame {
             pendingTA.append(suggestion + "\n");
         }
 
-    }
-
-    private void updateApprovedTA() {
-
-        approvedTA.setText("");
-
-        for (String suggestion : approvedSuggestions) {
-            approvedTA.append(suggestion + "\n");
-        }
     }
 
     /**
@@ -272,11 +279,10 @@ public class MainGUI extends javax.swing.JFrame {
     private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
         // TODO add your handling code here:
 
+        Plant plant = (Plant) plantCB.getSelectedItem();
         String area = areaCB.getSelectedItem().toString();
-        String plant = plantCB.getSelectedItem().toString();
 
-        String suggestion = area + " -> " + plant;
-
+        String suggestion = area + " -> " + plant.getName() + ": " + plant.getDescription();
         pendingSuggestions.add(suggestion);
         allSuggestions.add(suggestion);
 
@@ -286,9 +292,9 @@ public class MainGUI extends javax.swing.JFrame {
 
     private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
         // TODO add your handling code here:
-        if(!pendingSuggestions.isEmpty()){
+        if (!pendingSuggestions.isEmpty()) {
             pendingSuggestions.poll();
-            updatePendingTA(); 
+            updatePendingTA();
         }
     }//GEN-LAST:event_removeBtnActionPerformed
 
