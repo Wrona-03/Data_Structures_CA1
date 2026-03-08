@@ -4,19 +4,59 @@
  */
 package dsa_project;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
 /**
  *
  * @author wikto
  */
 public class MainGUI extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainGUI.class.getName());
 
     /**
      * Creates new form MainGUI
      */
+    Queue<String> pendingSuggestions = new LinkedList<>();
+    Stack<String> approvedSuggestions = new Stack<>();
+    ArrayList<String> allSuggestions = new ArrayList<>();
+
     public MainGUI() {
         initComponents();
+        
+        areaCB.addItem("George's Dock");
+        areaCB.addItem("Mayor Square");
+        areaCB.addItem("Spencer Dock");
+        areaCB.addItem("The Point Village");
+        areaCB.addItem("Grand Canal Dock");
+        
+        plantCB.addItem(new Primrose());
+        plantCB.addItem(new Cowslip());
+        plantCB.addItem(new RedClover());
+        plantCB.addItem(new Bluebell());
+
+    }
+
+    private void updatePendingTA() {
+
+        pendingTA.setText("");
+
+        for (String suggestion : pendingSuggestions) {
+            pendingTA.append(suggestion + "\n");
+        }
+
+    }
+
+    private void updateApprovedTA() {
+
+        approvedTA.setText("");
+
+        for (String suggestion : approvedSuggestions) {
+            approvedTA.append(suggestion + "\n");
+        }
     }
 
     /**
@@ -36,9 +76,10 @@ public class MainGUI extends javax.swing.JFrame {
         approved = new javax.swing.JLabel();
         TopPanel = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        submitBtn = new javax.swing.JButton();
         areaCB = new javax.swing.JComboBox<>();
         plantCB = new javax.swing.JComboBox<>();
+        removeBtn = new javax.swing.JButton();
         MidPanel = new javax.swing.JPanel();
         pendingSP = new javax.swing.JScrollPane();
         pendingTA = new javax.swing.JTextArea();
@@ -67,20 +108,21 @@ public class MainGUI extends javax.swing.JFrame {
         BottomPanel.setLayout(BottomPanelLayout);
         BottomPanelLayout.setHorizontalGroup(
             BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BottomPanelLayout.createSequentialGroup()
+            .addGroup(BottomPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(approved)
-                .addGap(80, 80, 80)
-                .addComponent(approvedSP, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(152, 152, 152))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BottomPanelLayout.createSequentialGroup()
+                .addComponent(approvedSP)
                 .addContainerGap())
         );
         BottomPanelLayout.setVerticalGroup(
             BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(approvedSP, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(BottomPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(approved)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(approvedSP, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         TopPanel.setBackground(new java.awt.Color(248, 244, 248));
@@ -89,13 +131,13 @@ public class MainGUI extends javax.swing.JFrame {
         title.setForeground(new java.awt.Color(46, 46, 46));
         title.setText("Plant the Docklands!");
 
-        jButton1.setBackground(new java.awt.Color(76, 145, 80));
-        jButton1.setFont(new java.awt.Font("Microsoft YaHei UI", 2, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Submit");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        submitBtn.setBackground(new java.awt.Color(76, 145, 80));
+        submitBtn.setFont(new java.awt.Font("Microsoft YaHei UI", 2, 12)); // NOI18N
+        submitBtn.setForeground(new java.awt.Color(255, 255, 255));
+        submitBtn.setText("Submit");
+        submitBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                submitBtnActionPerformed(evt);
             }
         });
 
@@ -108,26 +150,39 @@ public class MainGUI extends javax.swing.JFrame {
         plantCB.setFont(new java.awt.Font("Microsoft YaHei UI", 2, 12)); // NOI18N
         plantCB.setForeground(new java.awt.Color(255, 255, 255));
         plantCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        plantCB.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        plantCB.setLightWeightPopupEnabled(false);
+
+        removeBtn.setBackground(new java.awt.Color(76, 145, 80));
+        removeBtn.setFont(new java.awt.Font("Microsoft JhengHei UI", 2, 12)); // NOI18N
+        removeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        removeBtn.setText("Remove");
+        removeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout TopPanelLayout = new javax.swing.GroupLayout(TopPanel);
         TopPanel.setLayout(TopPanelLayout);
         TopPanelLayout.setHorizontalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TopPanelLayout.createSequentialGroup()
-                .addGroup(TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(TopPanelLayout.createSequentialGroup()
-                        .addGap(182, 182, 182)
-                        .addComponent(title))
-                    .addGroup(TopPanelLayout.createSequentialGroup()
-                        .addGap(211, 211, 211)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(TopPanelLayout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addComponent(areaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(plantCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53))
+            .addGroup(TopPanelLayout.createSequentialGroup()
+                .addGap(182, 182, 182)
+                .addComponent(title)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TopPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(submitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(removeBtn)
+                .addGap(158, 158, 158))
         );
         TopPanelLayout.setVerticalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +194,9 @@ public class MainGUI extends javax.swing.JFrame {
                     .addComponent(areaCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(plantCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(removeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(submitBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                 .addContainerGap(60, Short.MAX_VALUE))
         );
 
@@ -164,20 +221,19 @@ public class MainGUI extends javax.swing.JFrame {
             .addGroup(MidPanelLayout.createSequentialGroup()
                 .addGap(191, 191, 191)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
-                .addComponent(pendingSP, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(178, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MidPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pendingSP)
                 .addContainerGap())
         );
         MidPanelLayout.setVerticalGroup(
             MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MidPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(MidPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MidPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(pendingSP))
-                .addContainerGap())
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pendingSP, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -213,9 +269,28 @@ public class MainGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+        String area = areaCB.getSelectedItem().toString();
+        String plant = plantCB.getSelectedItem().toString();
+
+        String suggestion = area + " -> " + plant;
+
+        pendingSuggestions.add(suggestion);
+        allSuggestions.add(suggestion);
+
+        updatePendingTA();
+
+    }//GEN-LAST:event_submitBtnActionPerformed
+
+    private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
+        // TODO add your handling code here:
+        if(!pendingSuggestions.isEmpty()){
+            pendingSuggestions.poll();
+            updatePendingTA(); 
+        }
+    }//GEN-LAST:event_removeBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,15 +325,14 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane approvedSP;
     private javax.swing.JTextArea approvedTA;
     private javax.swing.JComboBox<String> areaCB;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane pendingSP;
     private javax.swing.JTextArea pendingTA;
-    private javax.swing.JComboBox<String> plantCB;
+    private javax.swing.JComboBox<Object> plantCB;
+    private javax.swing.JButton removeBtn;
+    private javax.swing.JButton submitBtn;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

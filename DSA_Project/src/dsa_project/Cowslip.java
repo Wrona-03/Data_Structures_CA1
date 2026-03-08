@@ -8,14 +8,16 @@ package dsa_project;
  *
  * @author wikto
  */
-public class Cowslip extends Plant{
+public class Cowslip extends Plant {
+
     public Cowslip(){
         super("Cowslip");
     }
-    
+
     @Override
     public String getDescription(){
         return "A yellow flower that was used as a medicinal herb.";
     }
-    
+
 }
+

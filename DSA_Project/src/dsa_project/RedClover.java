@@ -8,14 +8,15 @@ package dsa_project;
  *
  * @author wikto
  */
-public class RedClover extends Plant{
+public class RedClover extends Plant {
+
     public RedClover(){
         super("Red Clover");
     }
-    
+
     @Override
     public String getDescription(){
         return "A raspberry pink herb which was once Denmark's national flower.";
     }
-    
+
 }

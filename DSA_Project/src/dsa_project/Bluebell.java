@@ -8,13 +8,12 @@ package dsa_project;
  *
  * @author wikto
  */
-public class Bluebell extends Plant{
+public class Bluebell extends Plant {
     public Bluebell(){
         super("Bluebell");
     }
-    
     @Override
     public String getDescription(){
-        return "A woodland flower known best for it's blue bell-shaped petals.";
+        return "A woodland flower known best for its blue bell-shaped petals.";
     }
 }

@@ -8,14 +8,15 @@ package dsa_project;
  *
  * @author wikto
  */
-public class Primrose extends Plant{
+public class Primrose extends Plant {
+
     public Primrose(){
         super("Primrose");
     }
-    
+
     @Override
     public String getDescription(){
         return "A native Irish wildflower that blooms in early spring.";
     }
-    
+
 }

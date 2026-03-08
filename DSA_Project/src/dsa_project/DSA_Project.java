@@ -15,7 +15,8 @@ public class DSA_Project {
      */
     public static void main(String[] args) {
         // Display the GUI
-        
+        MainGUI myGUI = new MainGUI();
+        myGUI.setVisible(true);
     }
     
 }
