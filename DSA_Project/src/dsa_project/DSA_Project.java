@@ -18,5 +18,5 @@ public class DSA_Project {
         MainGUI myGUI = new MainGUI();
         myGUI.setVisible(true);
     }
-    
+
 }

@@ -21,8 +21,13 @@ public class MainGUI extends javax.swing.JFrame {
     /**
      * Creates new form MainGUI
      */
+    // Queue used to store suggestions waiting for approval (FIFO)
     Queue<String> pendingSuggestions = new LinkedList<>();
+
+// Stack used to store approved suggestions (LIFO)
     Stack<String> approvedSuggestions = new Stack<>();
+
+// ArrayList used to store all submissions
     ArrayList<String> allSuggestions = new ArrayList<>();
 
     public MainGUI() {

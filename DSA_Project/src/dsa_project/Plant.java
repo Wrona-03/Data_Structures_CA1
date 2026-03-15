@@ -9,20 +9,21 @@ package dsa_project;
  * @author wikto
  */
 abstract class Plant {
+
     protected String name;
-    
-    public Plant(String name){
+
+    public Plant(String name) {
         this.name = name;
     }
 
     public String getName() {
         return name;
     }
-    
+
     public abstract String getDescription();
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return name;
     }
 }

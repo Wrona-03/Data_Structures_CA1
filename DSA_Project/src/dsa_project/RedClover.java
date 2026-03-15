@@ -10,12 +10,12 @@ package dsa_project;
  */
 public class RedClover extends Plant {
 
-    public RedClover(){
+    public RedClover() {
         super("Red Clover");
     }
 
     @Override
-    public String getDescription(){
+    public String getDescription() {
         return "A raspberry pink herb which was once Denmark's national flower.";
     }
 

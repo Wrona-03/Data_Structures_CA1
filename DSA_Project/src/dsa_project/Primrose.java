@@ -10,12 +10,12 @@ package dsa_project;
  */
 public class Primrose extends Plant {
 
-    public Primrose(){
+    public Primrose() {
         super("Primrose");
     }
 
     @Override
-    public String getDescription(){
+    public String getDescription() {
         return "A native Irish wildflower that blooms in early spring.";
     }
 
